@@ -14,9 +14,6 @@ export const Header = () =>(
             </div>
             <div className="header__cart">
                 <Button/>
-                <Button/>
-                <Button/>
-                <Button/>
             </div>
         </div>
     </div>
