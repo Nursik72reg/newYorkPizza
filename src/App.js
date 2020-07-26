@@ -13,6 +13,11 @@ function App() {
           <div className="container">
             <div className="content__top">
                 <Categories items ={itemsName}/>
+                <Categories items ={itemsName}/>
+                <Categories items ={itemsName}/>
+                <Categories items ={itemsName}/>
+                <Categories items ={itemsName}/>
+              {/*  Удалить лишнее*/}
               <div className="sort">
                 <div className="sort__label">
                   <svg
