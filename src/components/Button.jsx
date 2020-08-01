@@ -6,8 +6,6 @@ export const Button = ({title}) =>{
         <button className={classNames("button", "button--cart")} >
             <span>520 ₽</span>
             <div className="button__delimiter">{title}</div>
-            <div className="button__delimiter">{title}</div>
-            <div className="button__delimiter">{title}</div>
             <svg
                 width="18"
                 height="18"
