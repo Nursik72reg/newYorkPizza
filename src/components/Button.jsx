@@ -1,6 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types"
 import classNames from "classnames"
 /*className="button button--cart"*/
+
+
+
 export const Button = ({title}) =>{
     return(
         <button className={classNames("button", "button--cart")} >
@@ -38,4 +42,12 @@ export const Button = ({title}) =>{
             <span>3</span>
         </button>
     )
+};
+
+Button.propTypes = {
+    title:PropTypes.string.isRequired
+};
+
+Button.defaultProps = {
+    title:""
 }

@@ -1,29 +1,34 @@
-import React from "react";
+import React, {useState} from "react";
+import PropTypes from "prop-types"
 
-class Categories extends React.Component{
-    state= {
-      className:3
+export const Categories = ({items})=>{
+    const [classNameItems, setClassNameItems] = useState(null);
+
+    let onSelected = (index) =>{
+        setClassNameItems(index)
     };
 
-    onSelected(index){
-        this.setState({
-            className:index
-        })
-        console.log(index)
-    }
+    let onSelectedThe = (index) =>{
+        setClassNameItems(index)
+    };
 
-    render() {
-        let {items} = this.props;
         return (
             <div className="categories">
                 <ul>
-                    <li>Все</li>
+                    <li onClick={()=>onSelectedThe(null)} className={classNameItems === null && "active"}>Все</li>
                     {items.map((title, index)=>{
-                        return <li onClick={()=>this.onSelected(index)} className={this.state.className === index ? "active" : null} key = {`${title}_${index}`}>{title}</li>
+                        return <li onClick={()=>onSelected(index)} className={classNameItems === index ? "active" : null} key = {`${title}_${index}`}>{title}</li>
                     })}
                 </ul>
             </div>
         )
-    }
+
+};
+
+Categories.propTypes = {
+    items:PropTypes.array.isRequired
+};
+
+Categories.defaultProps = {
+    items:[]
 }
-export default Categories
