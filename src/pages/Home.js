@@ -1,46 +1,55 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 
-import {useHttp} from "../hooks/http.hook";
+
 import SortPopup from "../components/SortPopup";
 import {PizzaBlock} from "../components/PizzaBlock";
 import {Categories} from "../components/Categories";
+import {setCategory} from "../store/actions/Filters";
 
-export const Home = () =>{
-    const {request} = useHttp();
-    const [items, setItems] = useState([]);
-    const itemsName = ["Мясные", "Вегетарианская", "Гриль", "Острые","Закрытые"];
-    const dataItems = useCallback(async ()=>{
-       try{
-           let data = await request("http://localhost:3000/db.json", "GET", null, {});
-           return data
-       }catch (e) {
-           console.log(e)
-       }
-    },[]);
 
-    useEffect( ()=>{
-        let getItemsPizza = async () =>{
-            let data =  await dataItems();
-            setItems(data.pizzas)
-        };
-        getItemsPizza()
-    },[]);
+const itemsName = ["Мясные", "Вегетарианская", "Гриль", "Острые","Закрытые"];
+const sortItems = [
+    {name: "Популярности", type: "popular"},
+    {name:  "Цене", type: "price"},
+    {name: "Алфавиту", type: "alphabet"},
+]
+const Home = () =>{
+    const dispatch = useDispatch();
+    const {pizzas,category} = useSelector((state)=>{
+        return {
+            pizzas: state.pizzas.pizzas,
+            category: state.filters.category
+        }
+    });
+
+    let clickSetCategory = useCallback((index)=>{
+        dispatch(setCategory(index))
+    },[category]);
+
+
+
     return (
         <div className="container">
             <div className="content__top">
-                <Categories items ={itemsName}/>
-                <SortPopup />
+                <Categories
+                    onClickItem = {clickSetCategory}
+                    items = {itemsName} />
+                <SortPopup
+                    sortItems = {sortItems}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-                {items.map(pizza =>{
+                {pizzas?.map(pizza =>{
                     return <PizzaBlock key={pizza.id} {...pizza}/>
                 })}
 
             </div>
         </div>
     )
-}
+};
+
+export default Home;
 
 
 
