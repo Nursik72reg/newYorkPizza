@@ -1,12 +1,12 @@
 export const SET_SORT_BY = "set_sort_by";
 export const SET_CATEGORY = "set_category";
 
-export const setSortBy = (name) => {
+export const setSortBy = (type) => {
     return {
         type: SET_SORT_BY,
-        payload: name
+        payload: type
     }
-}
+};
 
 
 export const setCategory = (catIndex) => {
@@ -14,4 +14,4 @@ export const setCategory = (catIndex) => {
         type: SET_CATEGORY,
         payload: catIndex
     }
-}
+};

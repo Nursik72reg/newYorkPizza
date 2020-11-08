@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from "react";
 import PropTypes from "prop-types"
 
-export const Categories = React.memo(({items,onClickItem})=>{
+export const Categories = React.memo(({categoryItem,items,onClickItem})=>{
     const [classNameItems, setClassNameItems] = useState(null);
 
     let onSelected = (index) =>{

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 
-export const PizzaBlock = ({imageUrl,price,name,types,sizes}) =>{
+export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCart}) =>{
     const [activeView, setActiveView] = useState(types[0]);
     const [activeSize, setActiveSize] = useState(sizes[0]);
     const availableName = ["тонкое", "траиционное"];
@@ -13,6 +13,15 @@ export const PizzaBlock = ({imageUrl,price,name,types,sizes}) =>{
     const onCLickSize = (index) =>{
         setActiveSize(index)
     };
+
+    const handleClickBlockPizza = () => {
+        const obj = {
+            id,imageUrl,price,name,types,sizes
+        };
+        onClickAddPizzaCart(obj)
+
+    }
+
     return(
         <div className="pizza-block">
             <img
@@ -46,7 +55,7 @@ export const PizzaBlock = ({imageUrl,price,name,types,sizes}) =>{
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">{price} руб</div>
-                <div className="button button--outline button--add">
+                <div onClick={handleClickBlockPizza} className="button button--outline button--add">
                     <svg
                         width="12"
                         height="12"
@@ -69,11 +78,13 @@ export const PizzaBlock = ({imageUrl,price,name,types,sizes}) =>{
 };
 
 PizzaBlock.propTypes = {
+    id: PropTypes.number.isRequired,
     name : PropTypes.string.isRequired,
     imageUrl:PropTypes.string.isRequired,
     price:PropTypes.number.isRequired,
     types:PropTypes.arrayOf(PropTypes.number).isRequired,
-    sizes:PropTypes.array.isRequired
+    sizes:PropTypes.array.isRequired,
+    onClickAddPizzaCart:PropTypes.func
 };
 
 PizzaBlock.defaultProps = {

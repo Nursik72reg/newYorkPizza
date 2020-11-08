@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 
-const SortPopup = React.memo(({sortItems}) =>{
+const SortPopup = React.memo(({sortItems, onClickSort}) =>{
     const [vizablePopup, setVisablePopup] = useState(false);
     const sortRef = useRef();
 
@@ -10,8 +10,9 @@ const SortPopup = React.memo(({sortItems}) =>{
         setVisablePopup(!vizablePopup)
     };
 
-    let handlePopupClick = (index)=>{
+    let handlePopupClick = (index,typeSort)=>{
         setActiveItem(index)
+        onClickSort(typeSort)
     };
 
     useEffect(()=>{
@@ -43,7 +44,7 @@ const SortPopup = React.memo(({sortItems}) =>{
                 <div className="sort__popup">
                     <ul>
                         {sortItems?.map((m,index)=>(
-                            <li onClick={()=>handlePopupClick(index)}
+                            <li onClick={()=>handlePopupClick(index, m.type)}
                                 className={activeItem === index ? "active" : ""}
                                 key={`${index}+ ${m.type}`}>{m.name}</li>
                         ))}

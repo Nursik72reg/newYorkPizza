@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types"
 import classNames from "classnames"
+import {useSelector} from "react-redux";
 /*className="button button--cart"*/
 
 
 
 export const Button = ({title}) =>{
+    const {totalCount,totalPrice} = useSelector(({cart})=>cart);
+
+
     return(
         <button className={classNames("button", "button--cart")} >
-            <span>520 ₽</span>
+            <span>{totalPrice} ₽</span>
             <div className="button__delimiter">{title}</div>
             <svg
                 width="18"
@@ -39,7 +43,7 @@ export const Button = ({title}) =>{
                     strokeLinejoin="round"
                 />
             </svg>
-            <span>3</span>
+            <span>{totalCount}</span>
         </button>
     )
 };
