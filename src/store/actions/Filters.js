@@ -1,5 +1,5 @@
-export const SET_SORT_BY = "set_sort_by";
-export const SET_CATEGORY = "set_category";
+export const SET_SORT_BY = "SET_SORT_BY";
+export const SET_CATEGORY = "SET_CATEGORY";
 
 export const setSortBy = (type) => {
     return {

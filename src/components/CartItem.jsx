@@ -1,8 +1,19 @@
 import React from 'react';
-import Button from './Button';
+import PropTypes from 'prop-types';
 
-const CartItem = () => {
+import ButtonSave from "./ButtonSave";
 
+
+const CartItem = (props) => {
+    const {id,name, type, size, obj, removeBlock, minusPizza, plusPizzaBlock} = props
+
+    const handleMinusPizza = () => {
+        minusPizza(id)
+    }
+
+    const handlePlusPizza = () => {
+        plusPizzaBlock(id)
+    }
 
     return (
         <div className="cart__item">
@@ -14,14 +25,13 @@ const CartItem = () => {
                 />
             </div>
             <div className="cart__item-info">
-                <h3></h3>
+                <h3>{name}</h3>
                 <p>
-                     тесто,  см.
+                    {type} тесто, {size} см.
                 </p>
             </div>
             <div className="cart__item-count">
-                <div
-                    className="button button--outline button--circle cart__item-count-minus">
+                <div  onClick={handleMinusPizza} className="button button--outline button--circle cart__item-count-minus">
                     <svg
                         width="10"
                         height="10"
@@ -38,10 +48,8 @@ const CartItem = () => {
                         />
                     </svg>
                 </div>
-                <b></b>
-                <div
-
-                    className="button button--outline button--circle cart__item-count-plus">
+                <b>{obj?.item?.length}</b>
+                <div onClick={handlePlusPizza} className="button button--outline button--circle cart__item-count-plus">
                     <svg
                         width="10"
                         height="10"
@@ -60,10 +68,10 @@ const CartItem = () => {
                 </div>
             </div>
             <div className="cart__item-price">
-                <b> ₽</b>
+                <b>{obj?.totalPriceBlock} ₽</b>
             </div>
             <div className="cart__item-remove">
-                <Button  className="button--circle" outline>
+                <ButtonSave onClick = {()=>removeBlock(id)} className="button--circle" outline>
                     <svg
                         width="10"
                         height="10"
@@ -79,10 +87,16 @@ const CartItem = () => {
                             fill="#EB5A1E"
                         />
                     </svg>
-                </Button>
+                </ButtonSave>
             </div>
         </div>
     );
 };
+CartItem.propTypes = {
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+
+
+}
 
 export default CartItem;

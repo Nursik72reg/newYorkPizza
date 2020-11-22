@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 
-export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCart}) =>{
+export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCart,totalPizzasBtn}) =>{
     const [activeView, setActiveView] = useState(types[0]);
     const [activeSize, setActiveSize] = useState(sizes[0]);
     const availableName = ["тонкое", "траиционное"];
@@ -20,7 +20,7 @@ export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCa
         };
         onClickAddPizzaCart(obj)
 
-    }
+    };
 
     return(
         <div className="pizza-block">
@@ -69,7 +69,7 @@ export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCa
                         />
                     </svg>
                     <span>Добавить</span>
-                    <i>2</i>
+                    <i>{totalPizzasBtn}</i>
                 </div>
             </div>
         </div>
@@ -80,14 +80,16 @@ export const PizzaBlock = ({id,imageUrl,price,name,types,sizes,onClickAddPizzaCa
 PizzaBlock.propTypes = {
     id: PropTypes.number.isRequired,
     name : PropTypes.string.isRequired,
-    imageUrl:PropTypes.string.isRequired,
-    price:PropTypes.number.isRequired,
-    types:PropTypes.arrayOf(PropTypes.number).isRequired,
-    sizes:PropTypes.array.isRequired,
-    onClickAddPizzaCart:PropTypes.func
+    imageUrl: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    types: PropTypes.arrayOf(PropTypes.number).isRequired,
+    sizes: PropTypes.array.isRequired,
+    onClickAddPizzaCart: PropTypes.func,
+    totalPizzasBtn: PropTypes.number.isRequired
 };
 
 PizzaBlock.defaultProps = {
     types:[],
-    sizes:[]
+    sizes:[],
+    totalPizzasBtn:0
 };

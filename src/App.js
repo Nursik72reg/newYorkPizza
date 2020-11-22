@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 import {BrowserRouter, Route} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+
 
 import "./scss/app.scss"
 import {Header} from "./components/Header";

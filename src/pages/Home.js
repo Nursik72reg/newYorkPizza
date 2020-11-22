@@ -44,7 +44,7 @@ const Home = () =>{
     const handleAddPizzaToCart = (obj) => {
         dispatch(newAddPizzaCart(obj))
     };
-    console.log(obj)
+
     return (
         <div className="container">
             <div className="content__top">
@@ -59,7 +59,7 @@ const Home = () =>{
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                {!loading ? pizzas?.map(pizza =>{
-                    return <PizzaBlock onClickAddPizzaCart={handleAddPizzaToCart} key={pizza.id} {...pizza}/>
+                    return <PizzaBlock onClickAddPizzaCart={handleAddPizzaToCart} totalPizzasBtn={obj[pizza.id]?.item?.length} key={pizza.id} {...pizza}/>
                 }) : Array(10).fill(<MyLoader/>)}
             </div>
         </div>

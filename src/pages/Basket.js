@@ -1,12 +1,40 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {Link} from "react-router-dom";
-import {Button} from "../components/Button";
+import {useDispatch, useSelector} from "react-redux";
 
-export const Basket = () =>{
+import CartItem from "../components/CartItem";
+import ButtonSave from "../components/ButtonSave";
+import {clearPizzaCart, minusPizza, plusPizza, removeBlockPizza} from "../store/actions/Cart";
+
+export const Basket = () => {
+    const dispatch = useDispatch();
+    const {obj,totalCount,totalPrice} = useSelector(({cart}) => {
+        return cart
+    });
+
+   const clearBacketPizzas = useCallback(()=>{
+        if(window.confirm("asdaads")) dispatch(clearPizzaCart())
+    },[dispatch])
+
+    debugger
+    const pizzasBlock = Object.keys(obj)
+        .map(m => obj[m]?.item[0]);
 
 
-    let totalCount = false
-    return(
+
+   const removeBlock = useCallback((id)=>{
+       dispatch(removeBlockPizza(id))
+   },[dispatch])
+
+    const minusPizzaBlock = (id) =>{
+       dispatch(minusPizza(id))
+    }
+
+    const plusPizzaBlock = (id) =>{
+       dispatch(plusPizza(id))
+    }
+
+    return (
         <div className="content">
             <div className="container container--cart">
                 {totalCount ? (
@@ -80,44 +108,53 @@ export const Basket = () =>{
                                     />
                                 </svg>
 
-                                <span >Очистить корзину</span>
+                                <span onClick={clearBacketPizzas}>Очистить корзину</span>
                             </div>
                         </div>
                         <div className="content__items">
-
+                            {pizzasBlock.map(m => {
+                                return <CartItem plusPizzaBlock = {plusPizzaBlock}
+                                                 minusPizza = {minusPizzaBlock}
+                                                 removeBlock = {removeBlock}
+                                                 id={m?.id}
+                                                 obj= {obj[m?.id]}
+                                                 name={m?.name}
+                                                 size={m?.size}
+                                                 type={m?.type}/>
+                            })}
                         </div>
                         <div className="cart__bottom">
                             <div className="cart__bottom-details">
                 <span>
-                  Всего пицц: <b>3 шт.</b>
+                  Всего пицц: <b>{totalCount} шт.</b>
                 </span>
                                 <span>
-                  Сумма заказа: <b>3 ₽</b>
+                  Сумма заказа: <b>{totalPrice} ₽</b>
                 </span>
                             </div>
                             <div className="cart__bottom-buttons">
-                                <a href="/" className="button button--outline button--add go-back-btn">
-                                    <svg
-                                        width="8"
-                                        height="14"
-                                        viewBox="0 0 8 14"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7 13L1 6.93015L6.86175 1"
-                                            stroke="#D3D3D3"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
+                                <ButtonSave href="/" className="button button--outline button--add go-back-btn">
                                     <Link to="/">
+                                        <svg
+                                            width="8"
+                                            height="14"
+                                            viewBox="0 0 8 14"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M7 13L1 6.93015L6.86175 1"
+                                                stroke="#D3D3D3"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
                                         <span>Вернуться назад</span>
                                     </Link>
-                                </a>
-                                <Button className="pay-btn">
+                                </ButtonSave>
+                                <ButtonSave className="pay-btn">
                                     <span>Оплатить сейчас</span>
-                                </Button>
+                                </ButtonSave>
                             </div>
                         </div>
                     </div>
@@ -128,10 +165,10 @@ export const Basket = () =>{
                         </h2>
                         <p>
                             Вероятней всего, вы не заказывали ещё пиццу.
-                            <br />
+                            <br/>
                             Для того, чтобы заказать пиццу, перейди на главную страницу.
                         </p>
-                        <img  alt="Empty cart" />
+                        <img alt="Empty cart"/>
                         <Link to="/" className="button button--black">
                             <span>Вернуться назад</span>
                         </Link>
