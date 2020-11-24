@@ -11,6 +11,22 @@ const initialState = {
 
 
 export const cartReducers = (state = initialState, action) => {
+    const _get = (obj, path) => {
+        const [firstKey, ...keys] = path.split('.');
+        return keys.reduce((val, key) => {
+            debugger
+            return val[key];
+        }, obj[firstKey]);
+    };
+
+    const getTotalSum = (obj, path) => {
+        return Object.values(obj).reduce((sum, obj) => {
+            const value = _get(obj, path);
+            return sum + value;
+        }, 0);
+    };
+
+
     switch (action.type) {
         case ADD_PIZZA_CART: {
             let sumTotalPrice = (itemBlock) => {
@@ -69,28 +85,26 @@ export const cartReducers = (state = initialState, action) => {
         }
 
         case MINUS_PIZZA: {
-            let newObj = [...state.obj[action.payload].item.slice(1)];
-            let newObjj = [...state.obj[action.payload].item]
-            let totalCount = [].concat.apply([], newObjj)
-            let obj = {
+            const oldItems = state.obj[action.payload].item;
+
+            const newObjItems =
+                oldItems.length > 1 ? state.obj[action.payload].item.slice(1) : oldItems;
+
+            const newItems = {
                 ...state.obj,
-                [action.payload]: Object.keys(newObjj).length > 1
-                    ? {
-                        item: newObj,
-                        totalPriceBlock: newObj.reduce((count, obj) => count + obj.price, 0)
-                    }
-                    : {
-                        item: newObjj,
-                        totalPriceBlock: newObjj.reduce((count, obj) => count + obj.price, 0)
-                    }
+                [action.payload]: {
+                    item: newObjItems,
+                    totalPriceBlock: newObjItems.reduce((count, obj) => count + obj.price, 0)
+                },
+            };
 
-            }
-
+            const totalCount = getTotalSum(newItems, 'item.length');
+            const totalPrice = getTotalSum(newItems, 'totalPriceBlock');
             return {
                 ...state,
-                obj: obj,
-                totalCount: totalCount.length,
-                totalPrice: newObjj.reduce((count, obj) => count + obj.price, 0)
+                obj: newItems,
+                totalCount,
+                totalPrice
             }
         }
 
@@ -107,11 +121,13 @@ export const cartReducers = (state = initialState, action) => {
                     totalPriceBlock: newObjItems.reduce((count, obj) => count + obj.price, 0)
                 },
             };
-
+            const totalCount = getTotalSum(newItems, 'item.length');
+            const totalPrice = getTotalSum(newItems, 'totalPriceBlock');
             return {
                 ...state,
                 obj: newItems,
-
+                totalCount,
+                totalPrice
             };
         }
 
